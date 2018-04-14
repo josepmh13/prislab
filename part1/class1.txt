@@ -1,0 +1,45 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                                    PARTE 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+-> Brief intro to C
+
+Software Development and Parallel Computing with C++
+
+    procedural, imperative computer programming language
+    essentially all UNIX.
+    C -> C++
+    most courses in C++ assume C knowledge
+    OOP language -> C++
+    www.tutorialspoint.com
+
+    gcc programname.c -o programname    ->Compile
+    ./programname                       ->Execute
+
+Variables and Types
+
+    TYPE IDENTIFIER1, IDENTIFIER2, ...
+
+    typedef OLD_TYPE NEW_NAME;            ->Para cambiar entiquetas
+    typedef unsigned int BARE_INT;
+    sizeof -> Numero de b      procedural, imperative computer programming language
+      essentially all UNIX.
+      C -> C++
+      most courses in C++ assume C knowledge
+      OOP language -> C++
+      www.tutorialspoint.com
+
+      gcc programname.c -o programname    ->Compile
+      ./programname                       ->Execute
+its asociado a un tipo de variable
+
+    %E -> Notación cientifica
+    %d -> Entero
+
+Static Variables
+    Reserva memoria
+
+Pointers
+    & -> direction
+    * -> define and de-referenciar
+
+    

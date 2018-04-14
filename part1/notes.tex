@@ -1,0 +1,931 @@
+\documentclass[11pt]{article}
+%Gummi|065|=)
+\title{\textbf{EXTMOD\_01 \\ Software Development and Parallel Computing - with C++} \\ CLASS 1: BRIEF INTRO TO C}
+\author{Gustavo Ram\'irez Hidalgo\\}
+\date{}
+
+\usepackage{verbatim}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{listings}
+%\usepackage{ragged2e}
+
+\lstset{
+         numbers=left,               % Ort der Zeilennummern
+         stepnumber=1,               % Abstand zwischen den Zeilennummern       
+         numberfirstline=false
+ }
+
+\begin{document}
+
+\maketitle
+
+C is a procedural and imperative computer programming language. Was developed in 1972 by Dennis Ritchie. Essentially all UNIX application programs have been written in C.
+
+\section{This course is mostly about C++. Then, why C first?}
+
+First of all, why C and/or C++ at all? Why not Fortran? Or Java? Or Python? (kidding about Python)
+
+Fortran is used widely in HPC for science. One of the main reasons for not using Fortran is that not many people outside the HPC community know the language. But why? Partly because people learn to code in Compute Science (CS) classes/schools, where almost no one knows Fortran.
+
+C/C++ are widely known. Period. This implies a good documentation and many (really, many!) blogs on issues and questions regarding C/C++, as well as a large number of online tutorials.
+
+This is sort of like the question: should I use Django for back-end development? Or Ruby on Rails? Django is very well documented, supported and widely used. I mean, just the library. But Python as well. Python is used in web development, Machine Learning, Data Science, etc. But rails can represent less work to get lightweight web apps up and running. Also, RoR has a very large community. There are also technical issues to the question: what's the model used for the database?
+
+Some people argue that Fortran is naturally suitable for HPC (on this regard: https://queue.acm.org/detail.cfm?id=1820518).
+
+We'll use C/C++ here. This is just a (somewhat personal) preference.
+
+The reason for introducing C before C++ is that (the former) contains/represents the basics for other programming languages (C++, ...). Also, most courses on C++ assume C knowledge. Finally, depending on what you're doing, you could use only C and not go into C++.
+
+There are multiple reasons for C being so widely used:
+
+\begin{itemize}
+\item easy to learn
+\item structured
+\item efficient (programs)
+\item can handle low-level activities
+\item its compilation is cross-platform
+\end{itemize}
+
+
+
+\section{How to learn it (C)}
+
+
+Many possible learning strategies. Three possible pilars:
+
+
+
+\begin{itemize}
+\item do things on YOUR OWN! Before checking the answer to a problem, or looking it up online, try to solve the problem yourself. Even if you sense you'll fail, always stick to solving any problem by yourself (or with a group of people, but in a non-passive way, always participating in the discussion)
+\item there's plenty of online material (blogs, http://stackoverflow.com/, etc.)
+\item a very good source to get started is: www.tutorialspoint.com
+\end{itemize}
+
+
+
+\section{Basic structure of a program}
+
+A basic C program including most of the core syntax is the following:
+
+\begin{lstlisting}
+/* Lines beginning with # are directives read and interpreted
+   by what is known as the preprocessor */
+#include <stdio.h>
+
+int main()
+{
+  //print msg on screen
+  printf("Hola, World!\n");
+  return 0;        /* 0 represents a successful
+                   execution and return of
+                   the program */
+}
+\end{lstlisting}
+
+
+where /* TEXT */ represents a block of comments and // is the start of a line of comments. Lines starting with \# are preprocessor directives: \#include brings libraries resources (e.g. printf(...) is brought from the stdio library). Finally, return 0 represents a successful end of the program.
+
+The line \#include $<$stdio.h$>$ tells the compiler to include the stdio.h before going to actual compilation. This is interpreted by the preprocessor (for a deep study of the C preprocessor: https://gcc.gnu.org/onlinedocs/cpp/ and https://www.tutorialspoint.com/cprogramming/c\_preprocessors.htm).
+
+The function main() is where the program execution begins.
+
+Comments are ignored by the compiler. You cannot have comments within comments and they do not occur within a string or character literals.
+
+
+\section{Tokens (and others)}
+
+
+Either a keyword, an identifier, a constant, a string literal, or a symbol. Example:
+
+\begin{lstlisting}
+printf("Hello, World! \n"); /* this is called a statement,
+                            the whole instruction in
+                            this line. Could be split
+                            in multiple lines */
+\end{lstlisting}
+
+which is, keyword-wise, equal to:
+
+\begin{lstlisting}
+printf
+(
+"Hello, World! \n"
+)
+;
+\end{lstlisting}
+
+Reserved words (keywords) in C:
+
+auto, else, long, switch, break, enum, register, typedef, case, extern, return, union, char, float, short, unsigned, const, for, signed, void, continue, goto, sizeof, volatile, default, if, static, while, do, int, struct, \_Packed, double.
+
+Do not use these keywords as constants or variables or any other identifier names.
+
+Whitespaces: blanks, tabs, newline characters and comments. All ignored by the compiler!
+
+
+\section{Variables and types}
+
+A C identifier is a name used to identify a variable, function, or any other user-defined item. An identifier starts with a letter A to Z, a to z, or an underscore followed by zero or more letters, underscores, and digits (0 to 9). C is case-sensitive.
+
+The declaration of a variable goes like this:
+
+\begin{lstlisting}[numbers=none]
+TYPE IDENTIFIER1, IDENTIFIER2, ...;
+\end{lstlisting}
+
+and there must be at least one whitespace character (usually a space) between int and age for the compiler to be able to distinguish them.
+
+Types of types:
+
+
+\begin{center}
+  \begin{tabular}{ | l | m{3cm} | m{6cm} | }
+    \hline
+    1 & Basic Types & They are arithmetic types and are further classified into: (a) integer types and (b) floating-point types. \\ \hline
+    2 & Enumerated types & They are again arithmetic types and they are used to define variables that can only assign certain discrete integer values throughout the program. \\ \hline
+    3 & The type void & The type specifier void indicates that no value is available. \\ \hline
+    4 & Derived types & They include (a) Pointer types, (b) Array types, (c) Structure types, (d) Union types and (e) Function types. \\
+    \hline
+  \end{tabular}
+\end{center}
+
+Integer types: char, unsigned char, signed char, int, unsigned int, short (2 bytes), unsigned short, long, unsigned long.
+
+Floating-point types: float, double, long double.
+
+Getting info from data types:
+
+\begin{lstlisting}
+#include <stdio.h>
+#include <limits.h> // for size variables such as FLT_MIN
+#include <float.h>  // for float
+#include <math.h>   // for pow(...)
+
+int main() {
+  printf("INFO - unsigned int\n");
+  printf("Storage size for int: %d bytes \n", sizeof(unsigned int));
+  printf("Range: %d - %d", 0, pow(2, sizeof(unsigned int))-1);
+
+  printf("\nINFO - float\n");
+  printf("Storage size for float : %d \n", sizeof(float));
+  printf("Minimum float positive value: %E\n", FLT_MIN );
+  printf("Maximum float positive value: %E\n", FLT_MAX );
+  printf("Precision value: %d\n", FLT_DIG );
+
+  return 0;
+}
+\end{lstlisting}
+
+
+Integer overflows occur when the result of an arithmetic operation is a value, that is too large to fit in the available storage space. To understand further about overflow in C, read:
+
+\begin{itemize}
+\item https://splone.com/blog/2015/3/11/integer-overflow-prevention-in-c/
+\item https://en.wikipedia.org/wiki/Two\%27s\_complement
+\item https://www.cs.cornell.edu/{\textasciitilde}tomf/notes/cps104/twoscomp.html
+\end{itemize}
+
+And to understand more on how floating point numbers are represented in the computer: http://steve.hollasch.net/cgindex/coding/ieeefloat.html.
+
+There are two kinds of expressions in C:
+
+\begin{itemize}
+\item lvalue − Expressions that refer to a memory location are called "lvalue" expressions. An lvalue may appear as either the left-hand or right-hand side of an assignment.
+\item rvalue − The term rvalue refers to a data value that is stored at some address in memory. An rvalue is an expression that cannot have a value assigned to it which means an rvalue may appear on the right-hand side but not on the left-hand side of an assignment.
+\end{itemize}
+
+Variables are lvalues and so they may appear on the left-hand side of an assignment. Numeric literals are rvalues and so they may not be assigned and cannot appear on the left-hand side.
+
+Finally, types can be given new names. Syntax:
+
+\begin{lstlisting}[numbers=none]
+typedef old_type NEW_TYPE
+\end{lstlisting}
+
+and by convention, uppercase letters are used for the new name.
+
+
+\section{Functions}
+
+Group of statements that together perform a task. Example: main().
+
+Parts of a function:
+
+\begin{itemize}
+\item declaration: name, return type and parameters
+\item definition: body of the function
+\end{itemize}
+
+General form:
+
+\begin{lstlisting}[numbers=none]
+return_type function_name( parameter list ) {
+   body of the function
+}
+\end{lstlisting}
+
+Specific example:
+
+\begin{lstlisting}
+#include <stdio.h>
+
+//Function declaration
+void print_map_elem(char, int);
+
+//Alternative declaration
+//void print_map_elem(char key, int val);
+
+int main()
+{
+  print_map_elem('k', 5);
+  return 0;
+}
+
+//Full implementation of the function
+void print_map_elem(char key, int val) /* key and val are called
+                                          'formal parameters' */
+{
+  printf("Pair: %c, %d\n", key, val);
+}
+\end{lstlisting}
+
+As seen above, if the function wants to be used within main(), then it has to be at least declared before usage.
+
+There's a fundamental concept related to functions, that of scope: https: //www.tutorialspoint.com/cprogramming/c\_scope\_rules.htm
+
+Global variables: those variables defined outside functions are initialised before the code runs, and are visible to all functions. They can be hidden from external functions using static. If the variable is local, creating a variable inside a function with the same name makes the variable outside the function invisible, and only the variable inside is accessible.
+
+Static serves the purpose of "giving memory" to functions, and for encapsulation (https://alastairs-place.net/blog/2013/06/03/encapsulation-in-c/). More on static: https://stackoverflow.com/questions/572547/what-does-static-mean-in-c.
+
+For definition without an initializer: variables with static storage duration are implicitly initialized with NULL (all bytes have the value 0); the initial value of all other variables are undefined.
+
+When calling functions, C uses a call by value: This method copies the actual value of an argument into the formal parameter of the function. In this case, changes made to the parameter inside the function have no effect on the argument.
+
+Alternatively, instead of functions one can use macros (sections of code to be inserted into the body of the program by the preprocessor): https://gcc.gnu.org/ onlinedocs/cpp/Macros.html. A macro is a fragment of code which has been given a name. Whenever the name is used, it is replaced by the contents of the macro. By convention, they're written in uppercase.
+
+
+\section{\textit{\#include} guards and \textit{\#pragma once}}
+
+When one or more functions have to be used but their declarations are spread over different files, then those files have to be included (sometimes one file has to be included from multiple files). If one file is included multiple times from another file, an error might occur due to the multiplicity in the declaration of certain functions and/or variables. To prevent this, \#include guards or \#pragma once can be used for safety.
+
+Check files:
+
+program\_pragma\_once.c
+
+program\_pragma\_once\_level1.h
+
+program\_pragma\_once\_level2.h
+
+program\_include\_guards.c
+
+program\_include\_guards\_level1.h
+
+program\_include\_guards\_level2.h
+
+\ \\
+
+all @ ./examples\_miscellaneous/
+
+
+\section{Arrays}
+
+Fixed-size sequential collection of elements of the same type. Contiguous memory locations!
+
+Declaration: type arrayName [ arraySize ];
+
+where arraySize has to be an integer greater than zero. Example:
+
+\begin{lstlisting}
+...
+#define LENGTH 5
+double array_doubles[LENGTH] = \
+        {10.0, 2.3, 5.4, 8.9, 3.3}; /* The number of values
+                                       between braces { } cannot
+                                       be larger than the number
+                                       of elements that we declare
+                                       for the array between square
+                                       brackets [ ] */
+//Alternatively
+double array_doubles[] = {10.0, 2.3, 5.4, 8.9, 3.3};
+...
+\end{lstlisting}
+
+Access:
+
+\begin{lstlisting}[numbers=none]
+double third_elem = array_doubles[2];
+\end{lstlisting}
+
+It's important to note the following. If for example, one has the following code:
+
+\begin{lstlisting}
+#include <stdio.h>
+
+void myF(int params[])
+{
+  printf("Address within function: \t%p\n", params);
+}
+
+int main()
+{
+  int arr_i[] = {2,3};
+
+  printf("Address within main: \t\t%p\n", arr_i);
+
+  myF(arr_i);
+}
+\end{lstlisting}
+
+then the output of it is:
+
+\begin{lstlisting}[numbers=none]
+Address within main: 		0x7ffde9cceea0
+Address within function: 	0x7ffde9cceea0
+\end{lstlisting}
+
+which means that both arrays are the same! There is no unnecessary double-copy of the entire array. This notion of avoiding extra copies of data (which can lead to unnecessary massive duplications of data) leads to the concept of pointers.
+
+
+\section{Pointers}
+
+For dynamic memory allocation (to be covered in the next section), pointers are necessary in C.
+
+A pointer is a variable whose value is the address of another variable. Also, the address of a variable can be obtained using the \& operator. In terms of ararys, addresses work as in the following example:
+
+
+\begin{lstlisting}
+#include <stdio.h>
+
+int main()
+{
+  int test_arr[] = {2,3,7};
+
+  printf("Value of second element: %d\n", test_arr[1]);
+  printf("Address of second element: %p\n", &(test_arr[1]));
+  printf("Address of second element: %p\n", test_arr+1);
+
+  return 0;
+}
+\end{lstlisting}
+
+The declaration of a pointer is as follows:
+
+\begin{lstlisting}[numbers=none]
+TYPE *IDENTIFIER = ADDRESS;
+\end{lstlisting}
+
+The prints in the previous example can be performed now with pointers:
+
+\begin{lstlisting}
+#include <stdio.h>
+#include <stdlib.h> //to enable malloc(...)
+
+int main()
+{
+  int *p_arr;
+
+  p_arr = (int*) malloc(3*sizeof(int));
+
+  p_arr[0] = 2;
+  *(p_arr+1) = 3;
+  p_arr[2] = 7;
+
+  printf("Value of second element: %d\n", p_arr[1]);
+  printf("Address of second element: %p\n", &(p_arr[1]));
+  printf("Address of second element: %p\n", p_arr+1);
+
+  free(p_arr);
+
+  return 0;
+}
+\end{lstlisting}
+
+
+As a pointer points to the address of a variable, and because a pointer is a variable itself, a pointer can point to another pointer. In the previous example:
+
+\begin{lstlisting}[numbers=none]
+...
+  int **p_p_arr = &p_arr;
+...
+\end{lstlisting}
+
+A full example using pointers to pointers:
+
+\begin{lstlisting}
+#include <stdio.h>
+#include <stdlib.h> //to enable malloc(...)
+
+int main()
+{
+  int *p_arr = NULL; // always a good practice
+
+  p_arr = (int*) malloc(3*sizeof(int));
+
+  p_arr[0] = 2;
+  *(p_arr+1) = 3;
+  p_arr[2] = 7;
+
+  printf("Value of second element: %d\n", p_arr[1]);
+  printf("Address of second element: %p\n", &(p_arr[1]));
+  printf("Address of second element: %p\n", p_arr+1);
+  printf("Size of pointer to int: %lu\n", sizeof(p_arr));
+
+  int **p_p_arr = &p_arr;
+  printf("\nValue of second element: %d\n", *(p_p_arr[0]+1));
+  printf("Value of second element: %d\n", (*p_p_arr)[1]);
+  printf("Address of second element: %p\n", &((*p_p_arr)[1]));
+  printf("Size of pointer to pointer: %lu\n", sizeof(p_p_arr));
+
+  //try the following two to see the error - in compilation!
+  //printf("Value of second element: %d\n", *((*p_p_arr)[1]) );
+  //printf("Value of second element: %d\n", &((*p_p_arr)+1) );
+
+  /* More on sizes */
+  short s1 = 4;
+  short *p_s1 = &s1;
+  printf("\nSize of short: %li\n", sizeof(s1));
+  printf("Size of pointer to short: %lu\n", sizeof(p_s1));
+
+  //always release allocated memory!
+  free(p_arr);
+
+  //try the following to see the error - in execution!
+  //free(p_p_arr);
+
+  return 0;
+}
+\end{lstlisting}
+
+It's fundamental to know how to pass/return pointers to/from functions:
+
+\begin{lstlisting}
+#include <stdio.h>
+
+void incr_nr(int *x)
+{
+  (*x)++;
+}
+
+int* decr_nr(int *y)
+{
+  (y[0])--;
+  return y;
+}
+
+int main()
+{
+  int w = 10;
+  int *x = &w;
+  int *z = NULL;
+
+  incr_nr(x);
+  printf("After increment: %d\n", *x);
+
+  z = decr_nr(x);
+  printf("After decrement: %d\n", *z);
+
+  //Try the following: compile once and execute multiple
+  //                   times to the the different outputs
+  //z++;
+  //printf("Value of second (non-existent) entry: %d\n", *z);
+
+  return 0;
+}
+\end{lstlisting}
+
+
+which works exactly as in the case of arrays, i.e. there's no duplication of memory.
+
+Finally, next to malloc() and free() there are more functions for memory management: https://www.tutorialspoint.com/cprogramming/c\_memory\_management.htm. Furthermore, check an extension of realloc called reallocarray (which checks for integer overflow): https://www.freebsd.org/cgi/man.cgi?query=reallocarray\&sektion=3.
+
+
+\section{Control statements: if}
+
+We'll discuss here two control statements: if and for. But there are others (while, do while, the ternary ? operator, switch).
+
+The if statement is simply a decision making operation:
+
+
+\begin{lstlisting}[numbers=none]
+if(CONDITION1)
+{
+  
+}
+else if(CONDITION2)
+{
+  /* STATEMENTS */
+}
+...
+/* MORE else if STATEMENTS HERE */
+...
+else
+{
+  /* STATEMENTS */
+}
+\end{lstlisting}
+
+The C programming language assumes any non-zero and non-null values as true, and if it is either zero or null, then it is assumed as false value.
+
+See the next section for an example of the use of the if statement combined with command line arguments.
+
+
+\section{Command Line Arguments}
+
+Until now, the main() function has had empty arguments (void). This function can take arguments as well, and those are precisely the user inputs. For example, after the program is compiled with:
+
+\begin{lstlisting}[numbers=none]
+gcc program.c -o program
+\end{lstlisting}
+
+the execution can have the form:
+
+\begin{lstlisting}[numbers=none]
+./program inp1 inp2 ...
+\end{lstlisting}
+
+where the number of inputs and the values of those strings, will be both encoded in argc and argv, respectively.
+
+Example of the use of command line arguments:
+
+\begin{lstlisting}
+#include <stdio.h>
+
+int main(int argc, char *argv[])  { 	//The second argument can be
+					//written as: char **argv
+  if(argc == 2) {
+    printf("The argument supplied is %s\n", argv[1]);
+  }
+  else if(argc > 2)
+  {
+    printf("Too many arguments supplied.\n");
+  }
+  else{
+    printf("One argument expected.\n");
+  }
+
+  return 0;
+}
+\end{lstlisting}
+
+
+\section{Control statements: for}
+
+The for loop is simply that, a loop. Syntax:
+
+\begin{lstlisting}[numbers=none]
+TYPE VAR;
+for(INIT; CONDITION; EXEC)
+{
+  ...
+}
+\end{lstlisting}
+
+where:
+
+\begin{itemize}
+\item INIT: initialisation of VAR (or any other necessary initialisations)
+\item CONDITION: when this condition is met, the loop stops and exits
+\item EXEC: something that is executed on each iteration
+\end{itemize}
+
+
+Example:
+
+\begin{lstlisting}[numbers=none]
+int i;
+for(i=0; i<10; i++)
+{
+  printf("Iteration: %d\n", i);
+}
+\end{lstlisting}
+
+
+Commands per iteration in the previous example:
+
+----------------------------------------------------------------------------------------------
+
+\textbf{Iter} \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textbf{Commands}
+
+----------------------------------------------------------------------------------------------
+
+1 \ \  \ \ \ \  \ \ \ \ \ \ \ \ \ \ \ \ \ \ initialize i=0, check i$<$10, call printf(...), increment: i++
+
+2 \  \ \ \ \  \ \ \ \ \ \ \ \ \ \ \ \ \ \ check i$<$10, call printf()..., increment: i++
+
+3 \  \ \ \ \  \ \ \ \ \ \ \ \ \ \ \ \ \ \ check i$<$10, call printf()..., increment: i++
+
+...
+
+11 \  \ \ \ \  \ \ \ \ \ \ \ \ \ \ \ \ check i$<$10, break
+
+----------------------------------------------------------------------------------------------
+
+The for loop can be used to extend the extraction of command line arguments:
+
+\begin{lstlisting}
+#include <stdio.h>
+
+int main(int argc, char *argv[])  { 	//The second argument can be
+					//written as: char **argv
+  if(argc == 2) {
+    printf("The argument supplied is %s\n", argv[1]);
+  }
+  else if(argc > 2)
+  {
+    printf("The arguments supplied are: ");
+    int i;
+    for(i=1; i<argc-1; i++)
+    {
+      printf("%s, ", argv[i]);
+    }
+    printf("%s\n", argv[argc-1]);
+  }
+  else{
+    printf("At least one argument expected.\n");
+  }
+
+  return 0;
+}
+\end{lstlisting}
+
+
+\section{Structs}
+
+Let's say we want to pass the information of an array as a whole, instead of array and size, both in separated variables. This can be done with the use of structs.
+
+Originally, if we want to print the array we do the following:
+
+\begin{lstlisting}
+#include <stdio.h>
+
+void print_arr(int params[], int size)
+{
+  int i;
+
+  printf("Array: ");
+  for(i=0; i<size-1; i++)
+  {
+    printf("%d, ", params[i]);
+  }
+  printf("%d\n", params[size-1]);
+}
+
+int main()
+{
+  int arr_i[] = {2, 3, 5, 89};
+  const int size = 4;
+
+  print_arr(arr_i, size);
+
+  return 0;
+}
+\end{lstlisting}
+
+
+The use of structs allows us to pack both the array info and the size of the array into a single information package.
+
+The syntax is the following:
+
+\begin{lstlisting}[numbers=none]
+struct [structure tag] {
+
+   member definition;
+   member definition;
+   ...
+   member definition;
+} [one or more structure variables];
+\end{lstlisting}
+
+
+The square brackets mean optional.
+
+To access any member of a structure, we use the member access operator (.).
+
+The example above (printing an array) can be re-written as follows, using structs to pack the data:
+
+
+\begin{lstlisting}
+#include <stdio.h>
+#include <stdlib.h>
+
+struct arr_ints{
+  int size;
+  int *data;
+};
+
+//Redefined the name of the struct
+typedef struct arr_ints ARR_INTS_P;
+
+void print_arr(ARR_INTS_P arr_pack_x)
+{
+  int i;
+
+  printf("Array: ");
+  for(i=0; i<arr_pack_x.size-1; i++)
+  {
+    printf("%d, ", arr_pack_x.data[i]);
+  }
+  printf("%d\n", arr_pack_x.data[arr_pack_x.size-1]);
+}
+
+int main()
+{
+  ARR_INTS_P arr_pack;
+
+  arr_pack.size = 4;
+
+  arr_pack.data = (int*) malloc(arr_pack.size * sizeof(int));
+
+  (arr_pack.data)[0] = 2;
+  (arr_pack.data)[1] = 3;
+  (arr_pack.data)[2] = 5;
+  (arr_pack.data)[3] = 89;
+
+  print_arr(arr_pack);
+
+  free(arr_pack.data);
+
+  return 0;
+}
+\end{lstlisting}
+
+
+Finally, when there's a pointer to a struct, one can access the fields of the struct with the use of an arrow operator. This means that the following:
+
+\begin{lstlisting}[numbers=none]
+...
+printf("Size: %d\n", arr_pack.size);
+...
+\end{lstlisting}
+
+prints the same as:
+
+\begin{lstlisting}[numbers=none]
+...
+ARR_INTS_P *p_arr_pack = &arr_pack;
+printf("Size: %d\n", p_arr_pack->size);
+...
+\end{lstlisting}
+
+
+\section{EXTRA}
+
+\subsection{Constants and literals}
+
+constants refer to fixed values that the program may not alter during its execution. These fixed values are also called literals. More on constants and literals: https://www.tutorialspoint.com/cprogramming/c\_constants.htm.
+
+In particular, it's important to know two ways of defining constants:
+
+\begin{itemize}
+\item the \#define preprocessor directive
+
+\begin{lstlisting}
+#include <stdio.h>
+
+#define LENGTH 10
+
+int main() {
+  printf("%d", LENGTH);
+
+  return 0;
+}
+\end{lstlisting}
+
+\item the const keyword
+
+\begin{lstlisting}
+#include <stdio.h>
+
+int main() {
+  const int  LENGTH = 10;
+
+  printf("%d", LENGTH);
+
+  return 0;
+}
+\end{lstlisting}
+\end{itemize}
+
+
+\subsection{Others}
+
+Links to some relevants topics that weren't covered here but should be studied for a full understanding of C:
+
+\ \\
+
+\textbf{Conditional compilation:}
+
+https://www.cs.auckland.ac.nz/references/unix/digital/AQTLTBTE/DOCU\_078.HTM
+
+https://stackoverflow.com/questions/4925300/program-compiled-on-linux-not-getting-code-in-ifdef-section
+
+\textbf{Storage classes:}
+
+https://www.tutorialspoint.com/cprogramming/c\_storage\_classes.htm
+
+\textbf{Operators in C (addition, etc.):}
+
+https://www.tutorialspoint.com/cprogramming/c\_operators.htm
+
+\textbf{Strings:}
+
+https://www.tutorialspoint.com/cprogramming/c\_strings.htm
+
+\textbf{Unions:}
+
+https://www.tutorialspoint.com/cprogramming/c\_unions.htm
+
+\textbf{Bit fields (in structs):}
+
+https://www.tutorialspoint.com/cprogramming/c\_bit\_fields.htm
+
+\textbf{Program I/O:}
+
+https://www.tutorialspoint.com/cprogramming/c\_input\_output.htm
+
+\textbf{File I/O:}
+
+https://www.tutorialspoint.com/cprogramming/c\_file\_io.htm
+
+\textbf{Header files (includes):}
+
+https://www.tutorialspoint.com/cprogramming/c\_header\_files.htm
+
+\textbf{Type casting:}
+
+https://www.tutorialspoint.com/cprogramming/c\_type\_casting.htm
+
+\textbf{Error handling:}
+
+https://www.tutorialspoint.com/cprogramming/c\_error\_handling.htm
+
+\textbf{Variable (input) arguments in functions:}
+
+https://www.tutorialspoint.com/cprogramming/c\_variable\_arguments.htm
+
+\textbf{Function to measure time:}
+
+https://www.tutorialspoint.com/c\_standard\_library/c\_function\_time.htm
+
+\textbf{Using typedef with structs:}
+
+https://www.tutorialspoint.com/cprogramming/c\_typedef.htm
+
+\textbf{Libraries from the C standard library:}
+
+https://www.tutorialspoint.com/c\_standard\_library/index.htm
+
+\textbf{System calls:}
+
+https://www.tutorialspoint.com/unix\_system\_calls/index.htm
+
+\textbf{Garbage collection:}
+
+http://www.linuxjournal.com/article/6679
+
+https://dev.to/thecodeboss/programming-concepts-garbage-collection
+
+http://wiki.c2.com/?LanguagesWithoutGarbageCollection
+
+\textbf{Recursion:}
+
+https://www.tutorialspoint.com/cprogramming/c\_recursion.htm
+
+\textbf{About the meaning and use of size\_t:}
+
+https://stackoverflow.com/questions/2550774/what-is-size-t-in-c
+
+\textbf{Developers best practices:}
+
+https://www.tutorialspoint.com/developers\_best\_practices/index.htm
+
+\textbf{On return(...) from main:}
+
+https://msdn.microsoft.com/en-us/library/sta56yeb.aspx
+
+https://www.gnu.org/software/libc/manual/html\_node/Exit-Status.html
+
+http://man7.org/linux/man-pages/man3/errno.3.html
+
+
+\textbf{getopt(...) to get passed arguments:}
+
+https://www.gnu.org/software/libc/manual/html\_node/Example-of-Getopt.html
+
+\textbf{gettimeofday() to measure time:}
+
+https://stackoverflow.com/questions/2150291/how-do-i-measure-a-time-interval-in-c
+
+http://man7.org/linux/man-pages/man2/gettimeofday.2.html
+
+\textbf{Bitwise operations in C:}
+
+https://www.programiz.com/c-programming/bitwise-operators
+
+https://www.cprogramming.com/tutorial/bitwise\_operators.html
+
+
+
+\end{document}
